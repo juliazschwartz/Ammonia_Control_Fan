@@ -2,7 +2,7 @@ Projeto apresentado na Feira Maker 2023 em Curitiba, recebendo o prêmio de 2° 
 O projeto consiste em um exaustor para recintos de roedores e outros animais, controlado por níveis de amônia. 
 Um sensor de amônia do tipo MQ137 integrado ao ESP32 controla o exaustor, ligando-o quando atinge 25ppm de amônia, quantidade considerada prejudicial à saúde dos animais. 
 
-<div style="display:flex">
+<div style="display:flex;gap:3px">
 <img src="https://github.com/juliazschwartz/Ammonia_Control_Fan/blob/main/fan.png" alt="fan" width="200" />
 <img src="https://github.com/juliazschwartz/Ammonia_Control_Fan/blob/main/mq137_a.jpg" alt="sensor" width="250"/>
 </div>
