@@ -1,5 +1,8 @@
 
+
 import 'package:flutter/material.dart';
+import 'package:android_multicast_lock/android_multicast_lock.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:get/get.dart';
 import 'dart:io';
 import 'dart:convert';
@@ -13,15 +16,21 @@ class Home extends StatefulWidget {
 
 
 class _HomeState extends State<Home>  {
-
-var received = '';
+InternetAddress multicastAddress = InternetAddress('244.1.1.1');
+var received = 'vazio';
 sendUDP(String data) async {
+  
   RawDatagramSocket udp = await RawDatagramSocket.bind(InternetAddress.anyIPv4, 1234);
   udp.send(utf8.encode(data), InternetAddress('192.168.0.10'), 1234);
   }
 receiveUDP() async {
   var mensagem = '';
+  final multicastLock = new MulticastLock();
+  multicastLock.acquire();
   RawDatagramSocket udp = await RawDatagramSocket.bind(InternetAddress.anyIPv4, 1234);
+  udp.multicastHops = 1;
+  udp.broadcastEnabled = true;
+  udp.writeEventsEnabled = true;
 
   udp.listen((event) {
     
@@ -37,6 +46,7 @@ receiveUDP() async {
         // String s = new String.fromCharCodes(datagram?.data);
         // Parse `datagram.data`
         // udp.close();
+        // multicastLock.release();
         break;
       case RawSocketEvent.closed:
         break;
@@ -45,6 +55,23 @@ receiveUDP() async {
     }
   });
   return mensagem;
+  }
+
+
+ 
+
+void receive() async {
+    final socket = await RawDatagramSocket.bind(InternetAddress.anyIPv4, 1234);
+    socket.multicastHops = 1;
+    socket.broadcastEnabled = true;
+    socket.writeEventsEnabled = true;
+    socket.listen((RawSocketEvent event) {
+      print("still listening...");
+
+      final packet = socket.receive();
+      print("The packet was $packet");
+      print("It came from ${packet?.address}");
+    });
   }
 
 String convertUint8ListToString(uint8list) {
@@ -66,169 +93,34 @@ String mensagem = '';
     
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text(  'CONTROLE DE CHOCADEIRAS ',
-  textAlign: TextAlign.right,
-  overflow: TextOverflow.ellipsis,
-  style:  TextStyle(fontSize:20,fontFamily: 'Raleway', fontWeight: FontWeight.bold)),
-  
-  SizedBox(height: 80), 
+                     new Container(
+              child: SfRadialGauge(
+                axes: <RadialAxis>[
+                  RadialAxis(minimum: 0.0, maximum: 1500.0, ranges: <GaugeRange>[
+                    GaugeRange(
+                        startValue: 0.0, endValue: 300.0, color: Colors.blue),
+                    GaugeRange(
+                        startValue: 300.0, endValue: 750.0, color: Colors.orange),
+                    GaugeRange(
+                        startValue: 750.0, endValue: 1500.0, color: Colors.red)
+                  ], pointers: <GaugePointer>[
+                    NeedlePointer(value:  double.parse(received)?? double.parse('0.2'))
+                  ], annotations: <GaugeAnnotation>[
+                    GaugeAnnotation(
+                        widget: Container(
+                            child: Text(
+                                "NH3\n" + "\n" +   "\n" +  "\n" +received + "ppm",
+                                style: TextStyle(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold))),
+                        angle: 90,
+                        positionFactor: 0.1)
+                  ])
+                ],
+              ),
+            ),
      
-          Card(
-            elevation:10,child:
-          Column(
-             mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[ 
-            SizedBox(height: 10),
-              Text(  'CHOCADEIRA 1 ',
-  textAlign: TextAlign.right,
-  overflow: TextOverflow.ellipsis,
-  style:  TextStyle(fontSize:20,fontFamily: 'Raleway', fontWeight: FontWeight.bold)),
-   SizedBox(height: 10), 
-          Row(
-       mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[ 
-             SizedBox(width: 10), 
-               Center(
-        child:  Icon(
-      Icons.thermostat,
-      color: Colors.green,
-      size: 35.0,
-   )),Center(
-   child:Text(  'Temperatura: ',
-  textAlign: TextAlign.right,
-  overflow: TextOverflow.ellipsis,
-  style:  TextStyle(fontSize:18,fontFamily: 'Raleway'),)),
-    SizedBox(width: 30), 
-
- Text(received.toString(), textAlign: TextAlign.right,
-  overflow: TextOverflow.ellipsis,
-  style:  TextStyle(fontSize:30,color:Colors.orange, fontFamily: 'Raleway'),),
-
-  
-  Text('°C', textAlign: TextAlign.right,
-  overflow: TextOverflow.ellipsis,
-  style:  TextStyle(fontSize:25,fontFamily: 'Raleway'),),
-  
-  
-   ],
-  ),
-         SizedBox(height: 20),
-          const  Row(  mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[   SizedBox(width: 10), Icon(
-      Icons.opacity,
-      color: Colors.green,
-      size: 35.0,
-    ),
-    SizedBox(width: 5), 
-     Text('Umidade: ',textAlign: TextAlign.center,
-  overflow: TextOverflow.ellipsis,
-  style:  TextStyle(fontSize:18,fontFamily: 'Raleway'))]),
-  SizedBox(height: 20),
-  
-        ])),
-          Card(
-            elevation:10,child:
-          Column(
-             mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[ 
-            SizedBox(height: 10),
-              Text(  'CHOCADEIRA 2 ',
-  textAlign: TextAlign.right,
-  overflow: TextOverflow.ellipsis,
-  style:  TextStyle(fontSize:20,fontFamily: 'Raleway', fontWeight: FontWeight.bold)),
-   SizedBox(height: 10), 
-          Row(
-       mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[ 
-             SizedBox(width: 10), 
-               Center(
-        child:  Icon(
-      Icons.thermostat,
-      color: Colors.pink,
-      size: 35.0,
-   )),Center(
-   child:Text(  'Temperatura: ',
-  textAlign: TextAlign.right,
-  overflow: TextOverflow.ellipsis,
-  style:  TextStyle(fontSize:18,fontFamily: 'Raleway'),)),
-    SizedBox(width: 30), 
-
- Text(received.toString(), textAlign: TextAlign.right,
-  overflow: TextOverflow.ellipsis,
-  style:  TextStyle(fontSize:30,color:Colors.orange, fontFamily: 'Raleway'),),
-
-  
-  Text('°C', textAlign: TextAlign.right,
-  overflow: TextOverflow.ellipsis,
-  style:  TextStyle(fontSize:25,fontFamily: 'Raleway'),),
-  
-  
-   ],
-  ),
-         SizedBox(height: 20),
-          const  Row(  mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[   SizedBox(width: 10), Icon(
-      Icons.opacity,
-      color: Colors.pink,
-      size: 35.0,
-    ),
-    SizedBox(width: 5), 
-     Text('Umidade: ',textAlign: TextAlign.center,
-  overflow: TextOverflow.ellipsis,
-  style:  TextStyle(fontSize:18,fontFamily: 'Raleway'))]),
-  SizedBox(height: 20),
-  
-        ])),
-          Card(
-            elevation:10,child:
-          Column(
-             mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[ 
-            SizedBox(height: 10),
-              Text(  'CHOCADEIRA 3 ',
-  textAlign: TextAlign.right,
-  overflow: TextOverflow.ellipsis,
-  style:  TextStyle(fontSize:20,fontFamily: 'Raleway', fontWeight: FontWeight.bold)),
-   SizedBox(height: 10), 
-          Row(
-       mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[ 
-             SizedBox(width: 10), 
-               Center(
-        child:  Icon(
-      Icons.thermostat,
-      color: Colors.blue,
-      size: 35.0,
-   )),Center(
-   child:Text(  'Temperatura: ',
-  textAlign: TextAlign.right,
-  overflow: TextOverflow.ellipsis,
-  style:  TextStyle(fontSize:18,fontFamily: 'Raleway'),)),
-    SizedBox(width: 30), 
-
- Text(received.toString(), textAlign: TextAlign.right,
-  overflow: TextOverflow.ellipsis,
-  style:  TextStyle(fontSize:30,color:Colors.orange, fontFamily: 'Raleway'),),
-
-  
-  Text('°C', textAlign: TextAlign.right,
-  overflow: TextOverflow.ellipsis,
-  style:  TextStyle(fontSize:25,fontFamily: 'Raleway'),),
-  
-  
-   ],
-  ),
-         SizedBox(height: 20),
-          const  Row(  mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[   SizedBox(width: 10), Icon(
-      Icons.opacity,
-      color: Colors.blue,
-      size: 35.0,
-    ),
-    SizedBox(width: 5), 
-     Text('Umidade: ',textAlign: TextAlign.center,
-  overflow: TextOverflow.ellipsis,
-  style:  TextStyle(fontSize:18,fontFamily: 'Raleway'))]),
-  SizedBox(height: 20),
-  
-        ])),
+          
 
         //  ElevatedButton(
         //     style: style,
@@ -239,6 +131,7 @@ String mensagem = '';
           ElevatedButton(
             style: style,
             onPressed:() { 
+              // receive();
               receiveUDP();
             },
             child:  
@@ -251,3 +144,24 @@ String mensagem = '';
           //    ),
           
                ],)),),);}}
+
+
+
+// import 'dart:io';
+
+// void main(List<String> args){
+//   RawDatagramSocket.bind(InternetAddress.ANY_IP_V4, 4444).then((RawDatagramSocket socket){
+//     print('Datagram socket ready to receive');
+//     print('${socket.address.address}:${socket.port}');
+//     socket.listen((RawSocketEvent e){
+//       Datagram d = socket.receive();
+//       if (d == null) return;
+
+//       String message = new String.fromCharCodes(d.data).trim();
+//       print('Datagram from ${d.address.address}:${d.port}: ${message}');
+//     });
+//   });
+// }
+
+
+
