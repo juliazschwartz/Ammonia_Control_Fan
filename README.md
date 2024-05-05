@@ -12,7 +12,7 @@ Além disso, foi construido um aplicativo em Flutter para receber os dados em te
 
 O adaptador para a mangueira no exaustor foi modelada e impressa em 3D.
 <img src="https://github.com/juliazschwartz/Ammonia_Control_Fan/blob/main/modelo.png" alt="Your image title" width="250"/>
-<img src="https://github.com/juliazschwartz/Ammonia_Control_Fan/blob/main/IMG_20231128_121346.jpg" alt="Your image title" width="250"/>
+<img src="https://github.com/juliazschwartz/Ammonia_Control_Fan/blob/main/hose_adaptor.jpg" alt="Your image title" width="250"/>
 
 Apresentação na Feira Maker: 
 <img src="https://github.com/juliazschwartz/Ammonia_Control_Fan/blob/main/FB_IMG_1702936540810.jpg" alt="Your image title" width="250"/>
