@@ -17,8 +17,11 @@ O adaptador para a mangueira no exaustor foi modelada e impressa em 3D.
 <img src="https://github.com/juliazschwartz/Ammonia_Control_Fan/blob/main/hose_adaptor.jpg" alt="Your image title" width="100"/>
 
 Apresentação na Feira Maker: 
+<div>
+  
 <img src="https://github.com/juliazschwartz/Ammonia_Control_Fan/blob/main/maker_fair.png" alt="Your image title" width="250"/>
 <img src="https://github.com/juliazschwartz/Ammonia_Control_Fan/blob/main/maker_fair_2.jpg" alt="Your image title" width="250"/>
+</div>
 
 
 
