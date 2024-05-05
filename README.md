@@ -3,7 +3,7 @@ O projeto consiste em um exaustor para recintos de roedores e outros animais, co
 Um sensor de amônia do tipo MQ137 integrado ao ESP32 controla o exaustor, ligando-o quando atinge 25ppm de amônia, quantidade considerada prejudicial à saúde dos animais. 
 
 <div style="display:flex">
-<img src="https://github.com/juliazschwartz/Ammonia_Control_Fan/blob/main/fan.png" alt="fan" width="100" />
+<img src="https://github.com/juliazschwartz/Ammonia_Control_Fan/blob/main/fan.png" alt="fan" width="200" />
 <img src="https://github.com/juliazschwartz/Ammonia_Control_Fan/blob/main/mq137_a.jpg" alt="sensor" width="250"/>
 </div>
 
