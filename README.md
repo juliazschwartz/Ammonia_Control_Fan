@@ -10,7 +10,7 @@ Um sensor de amônia do tipo MQ137 integrado ao ESP32 controla o exaustor, ligan
 Quando cai abaixo desse valor, ele desliga. Também é feito o controle manual da velocidade do exaustor por um circuito PWM.
 Além disso, foi construido um aplicativo em Flutter para receber os dados em tempo real dos níveis de amônia, pela comunicação através de sockets UDP.
 
-<img src="https://github.com/juliazschwartz/Ammonia_Control_Fan/blob/main/flutter_dashboard.jpg" alt="Your image title" width="250"/>
+<img src="https://github.com/juliazschwartz/Ammonia_Control_Fan/blob/main/flutter_dashboard.jpg" alt="Your image title" width="200"/>
 
 O adaptador para a mangueira no exaustor foi modelada e impressa em 3D.
 <img src="https://github.com/juliazschwartz/Ammonia_Control_Fan/blob/main/modelo.png" alt="Your image title" width="250"/>
