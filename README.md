@@ -1,4 +1,4 @@
-<h1>Exaustor Controlado por Amônia</h1>
+<h1>Exaustor Automático controlado por Amônia</h1>
 
 Projeto apresentado na Feira Maker 2023 em Curitiba, recebendo o prêmio de 2° Lugar.
 O projeto consiste em um exaustor para recintos de roedores e outros animais, controlado por níveis de amônia. 
